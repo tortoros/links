@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404: Not Found</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="background">
+      <h1 id="heading">404 Not Found</h1>
+      <p id="subheading">Sorry! That link doesn't exist.</p>
+      <a id="link" style="display: none"
+        >Click here if you are not redirected</a
+      >
+    </div>
+
+    <script src="redirects.js"></script>
+    <script>
+      const basePath = "/links";
+
+      const { pathname } = window.location;
+
+      const path = pathname.replace(/^\/links/, "").replace(/\/+$/, "");
+
+      const redirect = window.redirects[path];
+
+      if (redirect) {
+        document.getElementById(
+          "heading"
+        ).innerText = `Redirecting to ${redirect.name} (${redirect.url})...`;
+        document.getElementById("subheading").innerText =
+          "Please wait a moment.";
+
+        document.title = `Redirecting to ${redirect.name}...`;
+
+        const linkEl = document.getElementById("link");
+        linkEl.style.display = "block";
+        linkEl.href = redirect.url;
+
+        setTimeout(() => {
+            window.open(redirect.url, "_self");
+        }, 2000);
+      }
+    </script>
+  </body>
+</html>
